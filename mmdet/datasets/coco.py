@@ -36,13 +36,16 @@ class CocoDataset(CustomDataset):
             info = self.coco.loadImgs([i])[0]
             info['filename'] = info['file_name']
             img_infos.append(info)
+        #print(img_infos)
         return img_infos
 
     def get_ann_info(self, idx):
         img_id = self.img_infos[idx]['id']
         ann_ids = self.coco.getAnnIds(imgIds=[img_id])
         ann_info = self.coco.loadAnns(ann_ids)
-        return self._parse_ann_info(self.img_infos[idx], ann_info)
+        ann = self._parse_ann_info(self.img_infos[idx], ann_info)
+        #print(ann)
+        return ann
 
     def _filter_imgs(self, min_size=32):
         """Filter images too small or without ground truths."""

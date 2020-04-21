@@ -1,0 +1,1 @@
+/home/dmitriy.khvan/mmdetection/data/bepro/val/verl
