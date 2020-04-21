@@ -208,7 +208,7 @@ val_pipeline = [
 ]
 
 data = dict(
-    imgs_per_gpu=1,
+    imgs_per_gpu=2,
     workers_per_gpu=2,
     train=dict(
         type=dataset_type,
