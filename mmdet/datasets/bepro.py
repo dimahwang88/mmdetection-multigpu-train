@@ -68,7 +68,7 @@ class BeproDataset(CustomDataset):
                 continue
 
             label = self.cat2label[name]
-            difficult = int(obj.find('difficult').text)
+            # difficult = int(obj.find('difficult').text)
             bnd_box = obj.find('bndbox')
             bbox = [
                 int(bnd_box.find('xmin').text),
@@ -83,7 +83,8 @@ class BeproDataset(CustomDataset):
                 h = bbox[3] - bbox[1]
                 if w < self.min_size or h < self.min_size:
                     ignore = True
-            if difficult or ignore:
+            # if difficult or ignore:
+            if ignore:
                 bboxes_ignore.append(bbox)
                 labels_ignore.append(label)
             else:
