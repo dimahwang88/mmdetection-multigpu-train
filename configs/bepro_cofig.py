@@ -194,21 +194,33 @@ test_pipeline = [
 
 val_pipeline = [
     dict(type='LoadImageFromFile'),
-    dict(type='LoadAnnotations', with_bbox=True),
-    dict(
-        type='MultiScaleFlipAug',
-        # img_scale=(3072, 1728),
-        img_scale=(4096, 1200),
-        flip=False,
-        transforms=[
-            dict(type='Resize', keep_ratio=True),
-            dict(type='RandomFlip'),
-            dict(type='Normalize', **img_norm_cfg),
-            dict(type='Pad', size_divisor=32),
-            dict(type='ImageToTensor', keys=['img']),
-            dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels']),
-        ])
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
+    # dict(type='Resize', img_scale=(1333, 800), keep_ratio=True),
+    dict(type='Resize', img_scale=(4096, 1200), keep_ratio=True),
+    dict(type='RandomFlip', flip_ratio=0.0),
+    dict(type='Normalize', **img_norm_cfg),
+    dict(type='Pad', size_divisor=32),
+    dict(type='DefaultFormatBundle'),
+    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels', 'gt_masks']),
 ]
+
+#val_pipeline = [
+#    dict(type='LoadImageFromFile'),
+#    dict(type='LoadAnnotations', with_bbox=True),
+#    dict(
+#        type='MultiScaleFlipAug',
+#        # img_scale=(3072, 1728),
+#        img_scale=(4096, 1200),
+#        flip=False,
+#        transforms=[
+#            dict(type='Resize', keep_ratio=True),
+#            dict(type='RandomFlip'),
+#            dict(type='Normalize', **img_norm_cfg),
+#            dict(type='Pad', size_divisor=32),
+#            dict(type='ImageToTensor', keys=['img']),
+#            dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels']),
+#        ])
+#]
 
 data = dict(
     imgs_per_gpu=1,
@@ -225,7 +237,8 @@ data = dict(
         ann_file='/home/dmitriy.khvan/mmdetection/data/stitched_images_annotation/val_file.txt',
         # ann_file='/home/dmitriy.khvan/mmdetection/data/bepro/val_file.txt',
         img_prefix='',
-        pipeline=train_pipeline),
+        # pipeline=train_pipeline),
+        pipeline=val_pipeline),
     test=dict(
         type=dataset_type,
         ann_file=data_root + 'annotations/instances_val2017.json',
