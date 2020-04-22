@@ -195,7 +195,6 @@ test_pipeline = [
 val_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
-    # dict(type='Resize', img_scale=(1333, 800), keep_ratio=True),
     dict(type='Resize', img_scale=(4096, 1200), keep_ratio=True),
     dict(type='RandomFlip', flip_ratio=0.0),
     dict(type='Normalize', **img_norm_cfg),
